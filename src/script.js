@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore, collection, getDocs} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,15 +17,22 @@ const firebaseConfig = {
   measurementId: "G-X2WSQRK2FQ"
 };
 
+const fetchFirestore = async function(){
+  var db = getFirestore();
+  const querySnapshot = await getDocs(collection(db, "todo-items"));
+  querySnapshot.forEach((doc) => {
+    console.log(`${doc.data().text} => ${doc.data().status}`);
+  });
+}
+
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-console.log(app);
-
+const firebaseApp = initializeApp(firebaseConfig);
+const analytics = getAnalytics(firebaseApp);
+fetchFirestore();
 
 const addItem = function(event){
   event.preventDefault();
   let text = document.getElementById("todo-input");
   console.log(`${text.value}`);
 }
+
