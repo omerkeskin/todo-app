@@ -2,25 +2,31 @@ import { firebaseApp } from "./config.js";
 import { getFirestore, collection, getDocs, addDoc} from "firebase/firestore";
 import { async } from "@firebase/util";
 
+/* export const state = {
+  todoItems : []
+}; */
+
 export const state = {
   todoItems : []
 };
+
 const db = getFirestore();
 
 export const getTodoItems = async function(){
 
-  try{   
-    const querySnapshot = await getDocs(collection(db, "todo-items"));
-    state.todoItems = [];
+  const tempArr = [];
+  try{      
+    //state.todoItems = [];
+    const querySnapshot = await getDocs(collection(db, "todo-items"));   
     querySnapshot.forEach((doc) => {
        let item = {
-          text : doc.data().text,
-          status : doc.data().status
+          id: doc.id,
+          ...doc.data()
        };
-       state.todoItems.push(item);
+       tempArr.push(item);
     });
-
-
+    state.todoItems = [...tempArr];
+    console.log(state.todoItems);
   }catch (err) {
       throw err;
   }
@@ -28,14 +34,17 @@ export const getTodoItems = async function(){
 };
 
 export const addTodoItem = async function(data){
+  const newRecord = {
+    id: null,
+    text: data,
+    status: "active"
+  };
 
   try{   
     if(data){
-      const docRef = await addDoc(collection(db, "todo-items"), {
-        text: data,
-        status: "active"
-      });
-      console.log("Document written with ID: ", docRef.id);
+      const docRef = await addDoc(collection(db, "todo-items"), newRecord);
+      newRecord.id = docRef.id;
+      state.todoItems.push(newRecord);
     }
 
   }catch (err) {
