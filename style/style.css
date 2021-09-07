@@ -162,3 +162,25 @@ body {
   cursor: pointer;
   text-align: end;
 }
+
+.spinner svg{
+  margin: 5rem auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  height: 6rem;
+  width: 6rem;
+  fill: #f38e82;
+  animation: rotate 2s infinite linear;
+
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
