@@ -1,6 +1,7 @@
-import { getTodoItems, addTodoItem } from "./model.js";
+import { getTodoItems, addTodoItem , updateTodoItem} from "./model.js";
 import { state } from "./model.js";
 import todoContainerView from "./view/todoContainerView.js";
+import { toggleItemStatus } from "./util.js";
 
 const addItem = async function (event) {
   event.preventDefault();
@@ -14,8 +15,12 @@ const addItem = async function (event) {
   todoInput.value = "";
 };
 
-const controlClickTodoContainer = function () {
-  console.log('In controller');
+const controlClickTodoContainer = async function (recordId) {
+   console.log(state.todoItems);
+   const selectedItem = state.todoItems.find(item => item.id === recordId);
+   toggleItemStatus(selectedItem);
+   await updateTodoItem(selectedItem);
+   todoContainerView.toggleStatus(selectedItem);
 };
 
 const init = async function () {

@@ -35,7 +35,7 @@ class TodoContainerView {
 
   _generateTodoItemList(item){
      return `
-        <div class="todo-item">
+        <div class="todo-item" data-record-id=${item.id}>
             <div class="check">
               <div class="check-mark">
                   <img src="${item.status === 'active' ? iconCheck : iconCross}" >
@@ -70,10 +70,16 @@ class TodoContainerView {
   addHandlerClickTodoContainer(handler){
      this._parentElement.addEventListener('click', function(e){
         const target = e.target;
-        const checkStatusImg = target.closest('.todo-item').querySelector('img');
-        checkStatusImg.src = iconCross;
-        console.log(checkStatusImg);
+        const recordId = target.closest('.todo-item').dataset.recordId;   
+        handler(recordId);
      });
+  }
+
+  toggleStatus(updatedItem){
+    const selectedItem = Array.from(document.querySelectorAll('.todo-item')).find(item => item.dataset.recordId === updatedItem.id);
+    const checkImg = selectedItem.querySelector('img');
+    const newCheckImg = updatedItem.status === 'active' ? iconCheck : iconCross;
+    checkImg.src = newCheckImg;
   }
   
 }
