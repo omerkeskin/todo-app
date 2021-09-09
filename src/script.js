@@ -16,7 +16,6 @@ const addItem = async function (event) {
 };
 
 const controlClickTodoContainer = async function (recordId) {
-   console.log(state.todoItems);
    const selectedItem = state.todoItems.find(item => item.id === recordId);
    toggleItemStatus(selectedItem);
    await updateTodoItem(selectedItem);
@@ -24,9 +23,9 @@ const controlClickTodoContainer = async function (recordId) {
 };
 
 const init = async function () {
+  await getTodoItems();
   todoContainerView.addHandlerClickTodoContainer(controlClickTodoContainer);
   todoContainerView.renderSpinner();
-  await getTodoItems();
   const todoInputForm = document.getElementById("todo-input-form");
   todoInputForm.addEventListener("submit", addItem);
   todoContainerView.render(state.todoItems);
