@@ -10,7 +10,7 @@ const addItem = async function (event) {
   try {
     await addTodoItem(todoInput.value);
     todoContainerView.render(state.todoItems);
-    infoView.render(state.todoItems);
+    infoView.render(state);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
@@ -23,18 +23,35 @@ const controlClickTodoContainer = async function (recordId) {
    await updateTodoItem(selectedItem);
    todoContainerView.toggleStatus(selectedItem);
    infoView.updateActiveItems(state.todoItems);
-   console.log(state.todoItems);
+   state.displayOption = 'all';
+   infoView.updateDisplayOption(state.displayOption);
+   todoContainerView.render(state.todoItems);
+};
+
+const controlDisplayOptions = function(displayOption){
+   state.displayOption = displayOption;
+   let filteredItems = [];
+   if(displayOption === 'all'){
+      filteredItems = state.todoItems;
+   }else if(displayOption === 'active'){
+      filteredItems = state.todoItems.filter(item => item.status === 'active');
+   }else {
+      filteredItems = state.todoItems.filter(item => item.status === 'completed');
+   }
+   todoContainerView.render(filteredItems);
+   infoView.updateDisplayOption(state.displayOption);
 };
 
 const init = async function () {
   await getTodoItems();
   todoContainerView.addHandlerClickTodoContainer(controlClickTodoContainer);
+  infoView.addHandlerDisplayOptions(controlDisplayOptions);
   todoContainerView.renderSpinner();
   infoView.renderSpinner();
   const todoInputForm = document.getElementById("todo-input-form");
   todoInputForm.addEventListener("submit", addItem);
   todoContainerView.render(state.todoItems);
-  infoView.render(state.todoItems);
+  infoView.render(state);
 };
 
 init();

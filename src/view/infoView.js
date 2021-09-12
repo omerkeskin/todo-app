@@ -13,12 +13,12 @@ class InfoView {
     return `
           <div class="todo-items-info">
             <div class="items-left">
-                ${this._data.filter(item => item.status === 'active').length } items left
+                ${this._data.todoItems.filter(item => item.status === 'active').length } items left
             </div>
             <div class="items-statuses">
-                <span>All</span>
-                <span>Active</span>
-                <span class="active">Completed</span>
+                <span class="display-option ${this._data.displayFilter === 'all' ? 'active': ''}"" data-display-option="all" >All</span>
+                <span class="display-option ${this._data.displayFilter === 'active' ? 'active': ''}" data-display-option="active" >Active</span>
+                <span class="display-option ${this._data.displayFilter === 'completed' ? 'active': ''}" data-display-option="completed" >Completed</span>
             </div>
             <div class="items-clear">
               <span>Clear Completed</span>
@@ -61,6 +61,27 @@ class InfoView {
       activeItemText.innerHTML = message;
 
     }
+  }
+
+  updateDisplayOption(selectedOption){
+     const options = this._parentElement.querySelectorAll('.display-option');
+     options.forEach(el => {
+        el.classList.remove('active');
+        if(selectedOption === el.dataset.displayOption){
+          el.classList.add('active');
+        }
+     } );
+     
+  }
+
+  addHandlerDisplayOptions(handler){
+     this._parentElement.addEventListener('click', function(e){
+        const target = e.target;
+        if(target.classList.contains('display-option')){
+          const displayOption = target.dataset.displayOption;
+          handler(displayOption);
+        }
+     });
   }
 
 

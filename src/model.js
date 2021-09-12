@@ -3,7 +3,8 @@ import { getFirestore, collection, getDocs, addDoc, updateDoc, doc} from "fireba
 import { async } from "@firebase/util";
 
 export const state = {
-  todoItems : []
+  todoItems : [],
+  displayFilter : 'all'
 };
 
 const db = getFirestore();
