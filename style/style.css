@@ -139,7 +139,7 @@ body {
   color: hsl(233, 14%, 35%);
 }
 
-.todo-items-wrapper {
+.todo-items-wrapper ,.info-wrapper{
    margin-top: 30px;
    background-color: hsl(235, 24%, 19%);
    border-radius: 6px;

@@ -16,20 +16,6 @@ class TodoContainerView {
           <div class="todo-items">
              ${this._data.map(this._generateTodoItemList).join('')}
           </div>
-
-          <div class="todo-items-info">
-            <div class="items-left">
-                5 items left
-            </div>
-            <div class="items-statuses">
-                <span>All</span>
-                <span>Active</span>
-                <span class="active">Completed</span>
-            </div>
-            <div class="items-clear">
-              <span>Clear Completed</span>
-            </div>
-          </div>
     `;
   }
 
@@ -82,7 +68,7 @@ class TodoContainerView {
     const checkImg = selectedItem.querySelector('img');
     const newCheckImg = updatedItem.status === 'active' ? iconCheck : iconCross;
 
-    if(updatedItem.status === 'active'){
+    if(updatedItem.status === 'completed'){
       todoText.classList.add('checked');
       checkMark.classList.add('checked');
       checkImg.src = iconCheck;
