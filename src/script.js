@@ -1,4 +1,4 @@
-import { getTodoItems, addTodoItem , updateTodoItem} from "./model.js";
+import { getTodoItems, addTodoItem , updateTodoItem, deleteTodoItem} from "./model.js";
 import { state } from "./model.js";
 import todoContainerView from "./view/todoContainerView.js";
 import infoView from "./view/infoView.js";
@@ -42,10 +42,19 @@ const controlDisplayOptions = function(displayOption){
    infoView.updateDisplayOption(state.displayOption);
 };
 
+const controlClearCompleted = function(){
+    const completedTodoItems = state.todoItems.filter(item => item.status === 'completed');
+    completedTodoItems.forEach(item => deleteTodoItem(item.id));
+    state.todoItems = state.todoItems.filter(item => item.status === 'active');
+    todoContainerView.render(state.todoItems);
+    infoView.render(state);
+};
+
 const init = async function () {
   await getTodoItems();
   todoContainerView.addHandlerClickTodoContainer(controlClickTodoContainer);
   infoView.addHandlerDisplayOptions(controlDisplayOptions);
+  infoView.addHandlerClearCompleted(controlClearCompleted);
   todoContainerView.renderSpinner();
   infoView.renderSpinner();
   const todoInputForm = document.getElementById("todo-input-form");

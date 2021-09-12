@@ -84,6 +84,16 @@ class InfoView {
      });
   }
 
+  addHandlerClearCompleted(handler){
+      this._parentElement.addEventListener('click', function(e){
+         const target = e.target;
+         const itemsClearDiv = target.closest('.items-clear');
+         if(itemsClearDiv){
+          handler();
+         }
+      });
+  }
+
 
 
 }

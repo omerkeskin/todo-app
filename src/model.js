@@ -1,5 +1,5 @@
 import { firebaseApp } from "./config.js";
-import { getFirestore, collection, getDocs, addDoc, updateDoc, doc} from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
 import { async } from "@firebase/util";
 
 export const state = {
@@ -54,6 +54,18 @@ export const updateTodoItem = async function(item){
         await updateDoc(docRef, {
           status: item.status
         });
+    }
+
+  }catch (err) {
+      throw err;
+  }
+};
+
+export const deleteTodoItem = async function(itemId){
+  try{   
+    if(itemId){
+        const docRef = doc(db, 'todo-items', itemId);
+        await deleteDoc(docRef);
     }
 
   }catch (err) {
