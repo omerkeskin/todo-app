@@ -2,6 +2,7 @@ import { getTodoItems, addTodoItem , updateTodoItem, deleteTodoItem} from "./mod
 import { state } from "./model.js";
 import todoContainerView from "./view/todoContainerView.js";
 import infoView from "./view/infoView.js";
+import backgroundView from "./view/backgroundView.js";
 import { toggleItemStatus } from "./util.js";
 
 const addItem = async function (event) {
